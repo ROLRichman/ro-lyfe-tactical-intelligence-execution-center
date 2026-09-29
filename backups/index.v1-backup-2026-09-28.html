@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="RO'Lyfe Tactical Intelligence Execution Center — a source-to-execution workspace for real estate, auctions, auto auctions, funding, credit, logistics, AI agents and deal intelligence.">
+<meta name="theme-color" content="#07111f">
+<title>RO'Lyfe Tactical Intelligence Execution Center™</title>
+<style>
+:root{
+  --bg:#07111f;--panel:#0d1a2b;--panel2:#102239;--line:#20344d;
+  --text:#eef5ff;--muted:#9fb1c8;--gold:#f4c95d;--cyan:#61d9ff;
+  --green:#6ee7a8;--red:#ff7b7b;--blue:#7fb3ff;--shadow:0 18px 50px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 20% 0%,#122842 0,#07111f 42%,#050b14 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+button,input,select,textarea{font:inherit}
+.container{width:min(1180px,calc(100% - 28px));margin:auto}
+.signal{position:sticky;top:0;z-index:1000;overflow:hidden;background:#030812;border-bottom:1px solid var(--line);white-space:nowrap}
+.signal-track{display:inline-block;padding:8px 0;animation:marquee 30s linear infinite;color:var(--gold);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+@keyframes marquee{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+header{padding:44px 0 22px}
+.kicker{color:var(--gold);font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+h1{font-size:clamp(2.2rem,6vw,4.8rem);line-height:.98;margin:10px 0 16px;max-width:900px}
+h2{font-size:clamp(1.55rem,3vw,2.4rem);margin:0 0 10px}
+h3{margin:0 0 8px}
+.lede{font-size:1.08rem;color:#d3e0ef;max-width:900px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);background:#11233a;color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700}
+.btn:hover{background:#17304c;text-decoration:none}
+.btn.primary{background:#16425a;border-color:#286c8e}
+.btn.gold{background:#4b3c16;border-color:#8d732b;color:#ffe9a1}
+.btn.green{background:#123d2c;border-color:#246e4d}
+.btn.small{padding:7px 10px;font-size:.88rem}
+section{scroll-margin-top:70px;margin:24px 0}
+.card{background:linear-gradient(180deg,rgba(16,34,57,.96),rgba(10,24,41,.96));border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media(max-width:900px){.grid,.grid4{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.grid,.grid2,.grid4{grid-template-columns:1fr}.container{width:min(100% - 18px,1180px)}header{padding-top:30px}}
+.card p{color:var(--muted);margin:8px 0 14px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:3px 8px;font-size:.72rem;color:var(--muted);margin:2px}
+.workflow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media(max-width:800px){.workflow{grid-template-columns:repeat(2,1fr)}}
+.step{border:1px solid var(--line);background:#0a1728;border-radius:14px;padding:12px;text-align:center}
+.step strong{display:block;color:var(--gold);font-size:1.1rem}
+.step span{font-size:.82rem;color:var(--muted)}
+.field{margin-bottom:12px}
+label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:5px;font-weight:700}
+input,select,textarea{width:100%;background:#071321;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px}
+textarea{min-height:110px;resize:vertical}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.result{margin-top:12px;padding:13px;border:1px solid var(--line);background:#071523;border-radius:12px}
+.result strong{color:var(--gold)}
+.money{font-size:1.45rem;font-weight:900;color:var(--green)}
+details{border:1px solid var(--line);border-radius:14px;background:#0a1728;margin:10px 0}
+summary{cursor:pointer;padding:14px;font-weight:800}
+.details-body{padding:0 14px 14px}
+.notice{border-left:4px solid var(--gold);padding:12px 14px;background:#19170f;border-radius:8px;color:#d8d2bd}
+.warn{border-left-color:var(--red);background:#211214}
+.ok{border-left-color:var(--green);background:#0d1c16}
+ul{padding-left:20px}
+.muted{color:var(--muted)}
+.source{font-size:.88rem}
+.source-list{display:grid;gap:7px}
+.source-list a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#081525}
+.floating-ai{position:fixed;right:16px;bottom:16px;z-index:1200}
+.ai-menu{display:none;position:absolute;right:0;bottom:58px;width:250px;background:#0b1829;border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:var(--shadow)}
+.ai-menu.open{display:block}
+.ai-main{border:1px solid #3c6782;background:#12334a;color:#fff;border-radius:999px;padding:12px 16px;font-weight:900;cursor:pointer;box-shadow:var(--shadow)}
+.calc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media(max-width:800px){.calc-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.calc-grid{grid-template-columns:1fr}}
+.repo-list{columns:2;column-gap:30px}
+.repo-list a{display:block;padding:4px 0}
+@media(max-width:650px){.repo-list{columns:1}}
+footer{padding:40px 0 80px;color:var(--muted);font-size:.9rem}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+</style>
+</head>
+<body>
+<div class="signal"><div class="signal-track">
+RO'LYFE TACTICAL INTELLIGENCE • SOURCE → ANALYZE → PACKAGE → CAPITAL → EXECUTE • REAL ESTATE • AUCTIONS • AUTO • CREDIT • FUNDING • AI • LOGISTICS • VERIFY BEFORE ACTION •
+</div></div>
+
+<header class="container">
+  <div class="kicker">RO'Lyfe Tactical Intelligence</div>
+  <h1>Execution starts with the right source.</h1>
+  <p class="lede">A standalone operating page for turning scattered opportunities, property leads, auction inventory, funding sources, credit resources, applications and AI tools into an organized execution path.</p>
+  <div class="nav">
+    <button class="btn primary" onclick="go('start')">Start Here</button>
+    <button class="btn" onclick="go('property')">Property / Deal</button>
+    <button class="btn" onclick="go('funding')">Funding</button>
+    <button class="btn" onclick="go('credit')">Credit</button>
+    <button class="btn" onclick="go('auctions')">Auctions</button>
+    <button class="btn" onclick="go('sources')">All Sources</button>
+  </div>
+</header>
+
+<main class="container">
+
+<section id="start">
+  <div class="kicker">01 · Operating Map</div>
+  <div class="card">
+    <h2>Don't get lost in the links.</h2>
+    <p class="muted">This page is organized by the job the source performs. The page does not replace lenders, auction platforms, property databases, credit providers or professional advisors. It is the tactical routing layer.</p>
+    <div class="workflow">
+      <div class="step"><strong>01</strong><span>Source</span></div>
+      <div class="step"><strong>02</strong><span>Screen</span></div>
+      <div class="step"><strong>03</strong><span>Analyze</span></div>
+      <div class="step"><strong>04</strong><span>Package</span></div>
+      <div class="step"><strong>05</strong><span>Route</span></div>
+      <div class="step"><strong>06</strong><span>Execute</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="property">
+  <div class="kicker">02 · Property & Deal Intelligence</div>
+  <div class="grid">
+    <article class="card">
+      <h3>🏠 Real Estate Command Center</h3>
+      <p>Property search, deal analysis, 3-tier offer scenarios, funding resources and downloadable deal summaries.</p>
+      <a class="btn" target="_blank" href="https://rolrichman.github.io/RO-Lyfe-Real-Estate-Command-Center/">Open Command Center</a>
+    </article>
+    <article class="card">
+      <h3>⚙️ Acquisition Engine</h3>
+      <p>Use when a property needs to be screened and structured before it becomes a funding-ready opportunity.</p>
+      <a class="btn" target="_blank" href="https://rolrichman.github.io/rolyfe-acquisition-engine/">Open Acquisition Engine</a>
+    </article>
+    <article class="card">
+      <h3>🏚️ Auction Capital Machine</h3>
+      <p>Bank-owned, REO and foreclosure/auction workflow: inventory → underwriting → buyer/contractor → capital.</p>
+      <a class="btn" target="_blank" href="https://rolrichman.github.io/ro-lyfe-auction-capital-machine/">Open Auction Machine</a>
+    </article>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3>Quick property sources</h3>
+    <div class="source-list">
+      <a target="_blank" href="https://www.auction.com/residential/PA/Philadelphia_ct/active_lt/resi_sort_v2_st/2193029_oa">Auction.com — Philadelphia residential auction lead</a>
+      <a target="_blank" href="https://www.zillow.com/">Zillow — property research / comps</a>
+      <a target="_blank" href="https://www.redfin.com/">Redfin — property research / comps</a>
+      <a target="_blank" href="https://www.realtor.com/">Realtor.com — property research / comps</a>
+      <a target="_blank" href="https://dashboard.realestatebees.com/properties/buying-criteria">Real Estate Bees — buying criteria / property alerts</a>
+      <a target="_blank" href="https://dashboard.realestatebees.com/ambassador/offers">Real Estate Bees — referral / ambassador dashboard</a>
+      <a target="_blank" href="https://rebclick.com/AwVlzYE54P">Real Estate Bees — referral link</a>
+      <a target="_blank" href="https://rebclick.com/ZPeRlZxRNY">DispoBlast — referral link</a>
+    </div>
+  </div>
+</section>
+
+<section id="calculators">
+  <div class="kicker">03 · Embedded Tactical Calculators</div>
+  <details open>
+    <summary>🧮 Maximum Acquisition / Deal Spread Calculator</summary>
+    <div class="details-body">
+      <div class="calc-grid">
+        <div class="field"><label>ARV</label><input id="arv" type="number" value="300000"></div>
+        <div class="field"><label>Rehab</label><input id="rehab" type="number" value="75000"></div>
+        <div class="field"><label>Closing</label><input id="closing" type="number" value="5000"></div>
+        <div class="field"><label>Holding</label><input id="holding" type="number" value="2000"></div>
+        <div class="field"><label>Selling</label><input id="selling" type="number" value="15000"></div>
+        <div class="field"><label>Financing</label><input id="financing" type="number" value="10000"></div>
+        <div class="field"><label>Contingency</label><input id="contingency" type="number" value="10000"></div>
+        <div class="field"><label>Required Profit</label><input id="profit" type="number" value="40000"></div>
+      </div>
+      <div class="actions"><button class="btn gold" onclick="calcMAO()">Calculate MAO</button></div>
+      <div id="maoResult" class="result">Enter numbers and calculate.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>🏷️ 3-Tier Offer Scenario</summary>
+    <div class="details-body">
+      <div class="calc-grid">
+        <div class="field"><label>ARV</label><input id="offerArv" type="number" value="300000"></div>
+        <div class="field"><label>All Cash %</label><input id="cashPct" type="number" value="50"></div>
+        <div class="field"><label>Seller Carry %</label><input id="carryPct" type="number" value="65"></div>
+        <div class="field"><label>Seller Financing %</label><input id="sellerPct" type="number" value="75"></div>
+      </div>
+      <div class="actions"><button class="btn" onclick="calcOffers()">Build Scenarios</button></div>
+      <div id="offerResult" class="result">Defaults reflect the existing RO'Lyfe planning model and are not lender terms.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>💰 Funding Payment / Points Calculator</summary>
+    <div class="details-body">
+      <div class="calc-grid">
+        <div class="field"><label>Loan Amount</label><input id="loanAmount" type="number" value="250000"></div>
+        <div class="field"><label>Annual Rate %</label><input id="loanRate" type="number" step=".01" value="12.99"></div>
+        <div class="field"><label>Term Months</label><input id="loanTerm" type="number" value="60"></div>
+        <div class="field"><label>Points %</label><input id="loanPoints" type="number" step=".01" value="2.99"></div>
+      </div>
+      <div class="actions"><button class="btn" onclick="calcFunding()">Calculate</button></div>
+      <div id="fundingResult" class="result">Planning estimate only.</div>
+    </div>
+  </details>
+</section>
+
+<section id="application">
+  <div class="kicker">04 · Applications & Documents</div>
+  <div class="notice ok"><strong>Important:</strong> The public GitHub page should not collect Social Security numbers, full credit-report data or other highly sensitive underwriting information in a plain HTML form. Use the secure form provider for the full application.</div>
+
+  <div class="grid2" style="margin-top:14px">
+    <article class="card">
+      <h3>📄 Online Pre-Loan Intake</h3>
+      <p>Existing RO'Lyfe Jotform portal for online intake. Use this route for actual submission and follow-up.</p>
+      <div class="actions">
+        <a class="btn primary" target="_blank" href="https://form.jotform.com/252063354378055">Open Online Intake</a>
+        <a class="btn" target="_blank" href="https://form.jotform.com/261416399941062">RO'Lyfe Funding Portal</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>📥 Downloadable Pre-Loan PDF</h3>
+      <p>The saved RO'Lyfe fillable pre-loan PDF is included in this repository package.</p>
+      <div class="actions">
+        <a class="btn primary" href="assets/docs/ROlyfe-Fillable-Pre-Loan-Application.pdf" download>Download Fillable PDF</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>🧾 Business / Commercial Loan Application</h3>
+      <p>Business loan application source retained with this build. Replace it later if you provide a different commercial application.</p>
+      <a class="btn" href="assets/docs/RO-Lyfe-Business-Loan-Application.pdf" download>Download Application</a>
+    </article>
+    <article class="card">
+      <h3>📋 Borrower Checklist</h3>
+      <p>Use this before routing a real estate borrower to underwriting: entity documents, ID, bank statements, taxes, PSA, rehab scope, contractor documentation, title and insurance.</p>
+      <a class="btn" href="assets/docs/RO-Lyfe-Borrower-Checklist.pdf" download>Download Checklist</a>
+    </article>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3>✉️ Non-sensitive Deal Packet Email</h3>
+    <p class="muted">This local form creates a draft email and a downloadable text packet. Do not enter SSN, passwords or sensitive credit-report information here.</p>
+    <div class="grid2">
+      <div>
+        <div class="field"><label>Your Name</label><input id="packetName"></div>
+        <div class="field"><label>Property / Deal</label><input id="packetProperty"></div>
+        <div class="field"><label>Purchase Price</label><input id="packetPrice" type="number"></div>
+        <div class="field"><label>ARV</label><input id="packetArv" type="number"></div>
+      </div>
+      <div>
+        <div class="field"><label>Rehab</label><input id="packetRehab" type="number"></div>
+        <div class="field"><label>Funding Requested</label><input id="packetFunding" type="number"></div>
+        <div class="field"><label>Exit Strategy</label><textarea id="packetExit"></textarea></div>
+        <div class="field"><label>Notes</label><textarea id="packetNotes"></textarea></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn green" onclick="downloadPacket()">Download Packet</button>
+      <button class="btn" onclick="emailPacket()">Open Email Draft</button>
+    </div>
+  </div>
+</section>
+
+<section id="funding">
+  <div class="kicker">05 · Capital Routing</div>
+  <div class="grid">
+    <article class="card">
+      <h3>🏦 Kiavi Broker</h3>
+      <p>Broker / lending workflow for qualifying real-estate investment opportunities.</p>
+      <div class="actions">
+        <a class="btn primary" target="_blank" href="https://app.kiavi.com/my/loans/origination">Kiavi Broker Portal</a>
+        <a class="btn" target="_blank" href="https://app.kiavi.com/start/choose-program">Choose Program</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>🏦 COGO Capital</h3>
+      <p>Funding route and loan-program research. Route borrowers through the lender's current process.</p>
+      <a class="btn" target="_blank" href="https://www.borrowersviewcentral.com/portal/applynew?id=LCS">Open COGO Application</a>
+    </article>
+    <article class="card">
+      <h3>💼 America’s Funding Experts</h3>
+      <p>Startup, revenue-based, real-estate, SBA and partner/referral pathways.</p>
+      <a class="btn" target="_blank" href="https://my.americasfundingexperts.com/?id=1820217000190862001">Open Funding Hub</a>
+    </article>
+  </div>
+
+  <details>
+    <summary>Funding routes and marketing links</summary>
+    <div class="details-body source-list">
+      <a target="_blank" href="https://my.americasfundingexperts.com/f/startup-funding?id=1820217000190862001">Startup Funding</a>
+      <a target="_blank" href="https://my.americasfundingexperts.com/f/revenue-based-funding?id=1820217000190862001">Revenue-Based Funding</a>
+      <a target="_blank" href="https://my.americasfundingexperts.com/f/real-estate?id=1820217000190862001">Real Estate Funding</a>
+      <a target="_blank" href="https://my.americasfundingexperts.com/f/sba?id=1820217000190862001">SBA Funding</a>
+      <a target="_blank" href="https://my.americasfundingexperts.com/f/partner?id=1820217000190862001">Referral Partner</a>
+      <a target="_blank" href="https://getyourbizloan.io/lp1?pu=recqKxJNkvD70xMqi">GetYourBizLoan — LP1</a>
+      <a target="_blank" href="https://getyourbizloan.io/lp2?pu=recqKxJNkvD70xMqi">GetYourBizLoan — LP2</a>
+      <a target="_blank" href="https://go.mypartner.io/business-financing/?ref=001Qk00000MkqgTIAR">MyPartner — Business Financing</a>
+      <a target="_blank" href="https://rootholdingsgetfund.rfsitebuilder.com/">RO'Lyfe funding site</a>
+      <a target="_blank" href="https://privatemoneyexchange.com/aff-page/richman/">Private Money Exchange</a>
+      <a target="_blank" href="https://rootoflyfe.blnsoftware.com/">BLN Underwriting Portal</a>
+    </div>
+  </details>
+
+  <details>
+    <summary>📑 SBA source documents</summary>
+    <div class="details-body source-list">
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/sba/SBA_Program_Sheet.pdf">SBA Program Sheet</a>
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/sba/SBA_Program_Application.pdf">SBA Program Application</a>
+    </div>
+  </details>
+
+  <details>
+    <summary>🏠 Real-estate funding brochures</summary>
+    <div class="details-body source-list">
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/realestate/Version-01.png">Real Estate Brochure 01</a>
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/realestate/Version-02.png">Real Estate Brochure 02</a>
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/realestate/Version-03.png">Real Estate Brochure 03</a>
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/realestate/Version-04.png">Real Estate Brochure 04</a>
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/realestate/Version-05.png">Real Estate Brochure 05</a>
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/realestate/Version-06.png">Real Estate Brochure 06</a>
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/realestate/Fast_Capital_for_Investors_NCC.jpg">Fast Capital for Investors</a>
+      <a target="_blank" href="https://d2xfujwu5817tv.cloudfront.net/brochures/realestate/Fix_and_Flip_Loans_for_Investors_NCC.jpg">Fix & Flip Loans for Investors</a>
+    </div>
+  </details>
+</section>
+
+<section id="credit">
+  <div class="kicker">06 · Credit & Business Credit</div>
+  <div class="grid2">
+    <article class="card">
+      <h3>Credit monitoring / repair</h3>
+      <p class="muted">Affiliate resources from the working notes. Users should review current pricing, disclosures and terms on the provider's site.</p>
+      <div class="source-list">
+        <a target="_blank" href="https://www.creditscoreiq.com/lander/bus?offercode=435404PA">CreditScoreIQ</a>
+        <a target="_blank" href="https://www.myscoreiq.com/get-fico-preferred.aspx?offercode=432142NZ">MyScoreIQ — FICO</a>
+        <a target="_blank" href="https://www.identityiq.com/sc-securepreferred.aspx?offercode=431297MR">IdentityIQ</a>
+        <a target="_blank" href="https://www.creditbuilderiq.com/lander/bus?offercode=437502WT">CreditBuilderIQ</a>
+        <a target="_blank" href="https://www.myscoreiq.com/get-fico-preferred.aspx?offercode=432142NY">MyScoreIQ — alternate</a>
+        <a target="_blank" href="https://www.creditbuilderiq.com/lander/bus?offercode=437502J7">CreditBuilderIQ — alternate</a>
+        <a target="_blank" href="https://www.myscoreiq.com/get-fico-preferred.aspx?offercode=4321396B">MyScoreIQ — alternate 2</a>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Credit-building resources</h3>
+      <div class="source-list">
+        <a target="_blank" href="https://www.openskycc.com">OpenSky</a>
+        <a target="_blank" href="https://www.tomocredit.com">TomoCredit</a>
+        <a target="_blank" href="https://zolve.com">Zolve</a>
+        <a target="_blank" href="https://www.growcredit.com">Grow Credit</a>
+        <a target="_blank" href="https://www.discover.com/credit-cards/secured/">Discover Secured Card</a>
+        <a target="_blank" href="https://www.capitalone.com/credit-cards/quicksilver-secured/">Capital One Quicksilver Secured</a>
+        <a target="_blank" href="https://www.self.inc">Self</a>
+        <a target="_blank" href="https://www.creditstrong.com">CreditStrong</a>
+        <a target="_blank" href="https://www.listsource.com/homepage/index.html">ListSource</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="auctions">
+  <div class="kicker">07 · Auction / Auto Auction Intelligence</div>
+  <div class="grid2">
+    <article class="card">
+      <h3>🚗 AutoBidMaster</h3>
+      <p>Auto-auction research source. Use the filter link supplied in the working notes for runs-and-drives / minor-damage inventory.</p>
+      <a class="btn primary" target="_blank" href="https://www.autobidmaster.com/en/search/quickpick-runs-and-drives/doc-type-c,s/damage-minor%20dent--scratches/odometer-3536-120286/auction-type-0,1/seller-group-rental/exclude-upcoming-true/?vehicle-added=1770992306">Open AutoBidMaster Filter</a>
+    </article>
+    <article class="card">
+      <h3>🤖 Roger — Auto Auction Funding Advisor</h3>
+      <p>Dedicated Jotform AI agent for the auto-auction funding workflow.</p>
+      <a class="btn" target="_blank" href="https://www.jotform.com/agent/019bc207659f7bcab680f9fefb64542ae077">Open Roger</a>
+    </article>
+  </div>
+</section>
+
+<section id="ai">
+  <div class="kicker">08 · AI Interpretation Layer</div>
+  <div class="grid2">
+    <article class="card">
+      <h3>🤖 Jamal — Real Estate / Loan Execution AI</h3>
+      <p>Use Jamal as the interpretation and execution-assistance layer for real estate, funding and deal questions. The page routes users to the current agent instead of duplicating the AI logic in static HTML.</p>
+      <a class="btn primary" target="_blank" href="https://www.jotform.com/agent/019a5b67fad97a4db24b28e44f970158c0f1">Open Jamal</a>
+    </article>
+    <article class="card">
+      <h3>💰 RO'Lyfe Funding Portal</h3>
+      <p>Central Jotform portal for funding intake and execution resources.</p>
+      <a class="btn" target="_blank" href="https://form.jotform.com/261416399941062">Open Funding Portal</a>
+    </article>
+  </div>
+</section>
+
+<section id="logistics">
+  <div class="kicker">09 · Logistics / Freight</div>
+  <div class="card">
+    <h2>Freight source — later expansion</h2>
+    <p>Kept here without forcing logistics into the first execution workflow. iContainers provides online freight quotes, booking and shipment tracking; the page can later receive a dedicated freight calculator.</p>
+    <div class="actions">
+      <a class="btn" target="_blank" href="https://my.icontainers.com/sign-in">Open iContainers Account</a>
+      <a class="btn" target="_blank" href="https://www.icontainers.com/">iContainers Public Site</a>
+    </div>
+  </div>
+</section>
+
+<section id="business">
+  <div class="kicker">10 · Business / Compliance / Research</div>
+  <div class="grid">
+    <article class="card">
+      <h3>PA Business Hub</h3>
+      <p>Official Pennsylvania business portal for business filings and records.</p>
+      <a class="btn" target="_blank" href="https://hub.business.pa.gov/Login">Open PA Business Hub</a>
+    </article>
+    <article class="card">
+      <h3>PA Business One-Stop Shop</h3>
+      <p>State-level business guidance and resources.</p>
+      <a class="btn" target="_blank" href="https://business.pa.gov/">Open Business PA</a>
+    </article>
+    <article class="card">
+      <h3>Rural / Underserved Tool</h3>
+      <p>Official CFPB property-address tool for rural/underserved determinations when applicable.</p>
+      <a class="btn" target="_blank" href="https://www.consumerfinance.gov/rural-or-underserved-tool/">Open CFPB Tool</a>
+    </article>
+  </div>
+</section>
+
+<section id="sources">
+  <div class="kicker">11 · Connected RO'Lyfe Systems</div>
+  <div class="card">
+    <p class="muted">These are the systems this execution page can route into. The page is intentionally not replacing them.</p>
+    <div class="repo-list">
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-egaming/">RO'Lyfe eGaming</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-relocation-intelligence/">Relocation Intelligence</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-command-center/">RO'Lyfe Command Center</a>
+      <a target="_blank" href="https://rolrichman.github.io/RO-Lyfe-Capital-Intelligence-Command-Center-/">Capital Intelligence Command Center</a>
+      <a target="_blank" href="https://rolrichman.github.io/RO-Lyfe-Tactical-Intelligence-Center-/">Tactical Intelligence Center</a>
+      <a target="_blank" href="https://rolrichman.github.io/DealForge-OS/">DealForge OS</a>
+      <a target="_blank" href="https://rolrichman.github.io/RO-Lyfe-Closers-OS/">Closers OS</a>
+      <a target="_blank" href="https://rolrichman.github.io/RO-Lyfe-AI-Robotics-Hub/">AI Robotics Hub</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-acquisition-engine/">Acquisition Engine</a>
+      <a target="_blank" href="https://rolrichman.github.io/ROLyfe-Overage-Calculator/">Overage Calculator</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-funding/">Funding</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-contract-documents-hub/">Contract & Document Hub</a>
+      <a target="_blank" href="https://rolrichman.github.io/RO-Lyfe-Buyer-Network-OS/">Buyer Network OS</a>
+      <a target="_blank" href="https://rolrichman.github.io/rootoflyfe-tools/">Root Of Lyfe Tools</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-market-terminal/">Market Terminal</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-terminal-pro/">Terminal Pro</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-deal-engine/">Deal Engine</a>
+      <a target="_blank" href="https://rolrichman.github.io/RO-Lyfe-OS-v5.1/">RO'Lyfe OS v5.1</a>
+      <a target="_blank" href="https://rolrichman.github.io/RO-Lyfe-Strategy-Arena-/">Strategy Arena</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-machine/">RO'Lyfe Machine</a>
+      <a target="_blank" href="https://rolrichman.github.io/ROlyfe-Trading-Calculator-Pro/">Trading Calculator Pro</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-video-hub/">Video / Vision Hub</a>
+      <a target="_blank" href="https://rolrichman.github.io/rolyfe-secure-access-/">Secure Access</a>
+    </div>
+  </div>
+  <details>
+    <summary>🚧 Coming Soon / Expansion Slots</summary>
+    <div class="details-body">
+      <span class="tag">Commercial Loan Online Form Upgrade</span>
+      <span class="tag">Advanced Property Alerts</span>
+      <span class="tag">Contractor → Buyer Matching</span>
+      <span class="tag">Auto Auction Deal Analyzer</span>
+      <span class="tag">Freight / Container Calculator</span>
+      <span class="tag">Unified AI Agent Router</span>
+      <span class="tag">Secure Document Intake</span>
+      <span class="tag">Email + PDF Automation Backend</span>
+    </div>
+  </details>
+</section>
+
+<section id="disclaimer">
+  <div class="notice warn">
+    <strong>Execution notice:</strong> This page is a research, routing and workflow interface. It is not a lender, does not guarantee funding, does not guarantee property values or investment results, and does not make underwriting, legal, tax, title or credit decisions. Verify current terms with the applicable provider. Do not place passwords, Social Security numbers or other sensitive credentials into this static page or ordinary email.
+  </div>
+</section>
+
+</main>
+
+<div class="floating-ai">
+  <div id="aiMenu" class="ai-menu">
+    <strong>RO'Lyfe AI Routing</strong>
+    <p class="muted" style="font-size:.82rem">Choose the assistant for the job.</p>
+    <a class="btn small" target="_blank" href="https://www.jotform.com/agent/019a5b67fad97a4db24b28e44f970158c0f1">🤖 Jamal — Real Estate / Loan</a>
+    <a class="btn small" target="_blank" href="https://www.jotform.com/agent/019bc207659f7bcab680f9fefb64542ae077">🚗 Roger — Auto Auction</a>
+  </div>
+  <button class="ai-main" onclick="toggleAI()">🤖 AI</button>
+</div>
+
+<script>
+const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Number(n)||0);
+function go(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
+function num(id){return Number(document.getElementById(id)?.value)||0}
+function calcMAO(){
+  const arv=num('arv'), costs=num('rehab')+num('closing')+num('holding')+num('selling')+num('financing')+num('contingency')+num('profit');
+  const mao=arv-costs;
+  document.getElementById('maoResult').innerHTML=`<div class="money">${money(mao)}</div><div>Modeled maximum acquisition price.</div><div class="muted">Formula: ARV − rehab − closing − holding − selling − financing − contingency − required profit.</div>`;
+}
+function calcOffers(){
+  const a=num('offerArv');
+  document.getElementById('offerResult').innerHTML=`
+    <div><strong>All Cash:</strong> ${money(a*num('cashPct')/100)}</div>
+    <div><strong>Seller Carry:</strong> ${money(a*num('carryPct')/100)}</div>
+    <div><strong>Seller Financing:</strong> ${money(a*num('sellerPct')/100)}</div>
+    <div class="muted">Planning scenarios only. Actual seller/lender terms control.</div>`;
+}
+function calcFunding(){
+  const P=num('loanAmount'), annual=num('loanRate')/100, months=num('loanTerm'), points=P*num('loanPoints')/100;
+  const r=annual/12;
+  const payment=r?P*r/(1-Math.pow(1+r,-months)):P/months;
+  document.getElementById('fundingResult').innerHTML=`
+    <div><strong>Estimated monthly P&I:</strong> ${money(payment)}</div>
+    <div><strong>Modeled points:</strong> ${money(points)}</div>
+    <div class="muted">Estimate only; actual payment structure, fees, interest and term depend on the lender and product.</div>`;
+}
+function packetData(){
+  return {
+    brand:"RO'Lyfe Tactical Intelligence Execution Center",
+    created:new Date().toISOString(),
+    name:document.getElementById('packetName').value,
+    property:document.getElementById('packetProperty').value,
+    purchasePrice:document.getElementById('packetPrice').value,
+    arv:document.getElementById('packetArv').value,
+    rehab:document.getElementById('packetRehab').value,
+    fundingRequested:document.getElementById('packetFunding').value,
+    exitStrategy:document.getElementById('packetExit').value,
+    notes:document.getElementById('packetNotes').value
+  };
+}
+function downloadPacket(){
+  const d=packetData();
+  const text=`RO'LYFE TACTICAL EXECUTION PACKET\n\nName: ${d.name}\nProperty / Deal: ${d.property}\nPurchase Price: ${d.purchasePrice}\nARV: ${d.arv}\nRehab: ${d.rehab}\nFunding Requested: ${d.fundingRequested}\nExit Strategy: ${d.exitStrategy}\nNotes: ${d.notes}\nCreated: ${d.created}\n`;
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='rolyfe-execution-packet.txt';a.click();URL.revokeObjectURL(a.href);
+}
+function emailPacket(){
+  const d=packetData();
+  const subject=encodeURIComponent(`RO'Lyfe Execution Packet — ${d.property||'New Deal'}`);
+  const body=encodeURIComponent(`RO'Lyfe Execution Packet\n\nName: ${d.name}\nProperty / Deal: ${d.property}\nPurchase Price: ${d.purchasePrice}\nARV: ${d.arv}\nRehab: ${d.rehab}\nFunding Requested: ${d.fundingRequested}\nExit Strategy: ${d.exitStrategy}\nNotes: ${d.notes}\n\nPlease use the secure application route for sensitive underwriting information.`);
+  location.href=`mailto:richman@rootoflyfe.com?subject=${subject}&body=${body}`;
+}
+function toggleAI(){document.getElementById('aiMenu').classList.toggle('open')}
+document.addEventListener('click',e=>{
+  const wrap=document.querySelector('.floating-ai');
+  if(!wrap.contains(e.target))document.getElementById('aiMenu').classList.remove('open');
+});
+calcMAO();calcOffers();calcFunding();
+</script>
+</body>
+</html>
